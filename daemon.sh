@@ -2,14 +2,26 @@
 set -euo pipefail
 
 PLIST_NAME="com.github.copilot-wrapper.plist"
-PLIST_SRC="$(cd "$(dirname "$0")" && pwd)/${PLIST_NAME}"
+PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLIST_SRC="${PROJECT_DIR}/${PLIST_NAME}"
 PLIST_DST="${HOME}/Library/LaunchAgents/${PLIST_NAME}"
 LOG_DIR="${HOME}/Library/Logs/copilot-wrapper"
+BINARY="${PROJECT_DIR}/target/release/copilot-wrapper"
 
 case "${1:-install}" in
+  build)
+    echo "Building release binary..."
+    cargo build --release --manifest-path "${PROJECT_DIR}/Cargo.toml"
+    echo "✓ Built: ${BINARY}"
+    ls -lh "${BINARY}"
+    ;;
+
   install)
+    if [[ ! -f "${BINARY}" ]]; then
+      echo "Binary not found. Building first..."
+      cargo build --release --manifest-path "${PROJECT_DIR}/Cargo.toml"
+    fi
     mkdir -p "${LOG_DIR}"
-    # Unload if already loaded
     launchctl bootout "gui/$(id -u)/${PLIST_NAME%.plist}" 2>/dev/null || true
     cp "${PLIST_SRC}" "${PLIST_DST}"
     launchctl bootstrap "gui/$(id -u)" "${PLIST_DST}"
@@ -44,7 +56,7 @@ case "${1:-install}" in
     ;;
 
   *)
-    echo "Usage: $0 {install|uninstall|start|stop|status|logs}"
+    echo "Usage: $0 {build|install|uninstall|start|stop|status|logs}"
     exit 1
     ;;
 esac

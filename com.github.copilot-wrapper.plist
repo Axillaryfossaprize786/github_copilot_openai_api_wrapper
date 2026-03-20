@@ -8,7 +8,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/torsten/github/github_copilot_openai_api_wrapper/.venv/bin/copilot-wrapper</string>
+        <string>/Users/torsten/github/github_copilot_openai_api_wrapper/target/release/copilot-wrapper</string>
     </array>
 
     <key>WorkingDirectory</key>
@@ -44,7 +44,7 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
-        <string>/Users/torsten/github/github_copilot_openai_api_wrapper/.venv/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <string>/Users/torsten/.cargo/bin:/usr/local/bin:/usr/bin:/bin</string>
     </dict>
 </dict>
 </plist>
