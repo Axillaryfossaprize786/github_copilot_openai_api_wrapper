@@ -1,16 +1,11 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-dist/
-build/
-*.egg
+# Rust
+target/
 
-# Virtual environments
+# Python leftovers
+__pycache__/
+*.pyc
+*.egg-info/
 .venv/
-venv/
-env/
 
 # IDE
 .idea/
@@ -22,12 +17,10 @@ env/
 # Environment
 .env
 
-# Rust
-rust/target/
-
 # OS
 .DS_Store
 Thumbs.db
 
 # Token (should never be committed)
 github_token
+debug_stream.py

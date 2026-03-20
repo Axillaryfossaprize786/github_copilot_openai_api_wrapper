@@ -23,7 +23,7 @@ fn token_path() -> PathBuf {
     dir.join("github_token")
 }
 
-fn now_secs() -> f64 {
+pub fn now_secs() -> f64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
@@ -33,8 +33,8 @@ fn now_secs() -> f64 {
 pub struct CopilotAuth {
     http: Client,
     github_token: RwLock<Option<String>>,
-    copilot_token: RwLock<Option<String>>,
-    copilot_expires_at: RwLock<f64>,
+    pub copilot_token: RwLock<Option<String>>,
+    pub copilot_expires_at: RwLock<f64>,
 }
 
 impl CopilotAuth {
@@ -261,5 +261,54 @@ impl CopilotAuth {
         *self.copilot_expires_at.write().await = data.expires_at;
 
         Ok(data.token)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn now_secs_is_reasonable() {
+        let t = now_secs();
+        // Should be after 2024-01-01 and before 2100
+        assert!(t > 1_704_067_200.0);
+        assert!(t < 4_102_444_800.0);
+    }
+
+    #[test]
+    fn github_headers_contain_auth() {
+        let headers = CopilotAuth::github_headers("ghp_testtoken123");
+        let auth = headers.iter().find(|(k, _)| *k == "Authorization").unwrap();
+        assert_eq!(auth.1, "token ghp_testtoken123");
+    }
+
+    #[test]
+    fn github_headers_contain_required_fields() {
+        let headers = CopilotAuth::github_headers("test");
+        let keys: Vec<&str> = headers.iter().map(|(k, _)| *k).collect();
+        assert!(keys.contains(&"Content-Type"));
+        assert!(keys.contains(&"Accept"));
+        assert!(keys.contains(&"User-Agent"));
+        assert!(keys.contains(&"Editor-Version"));
+        assert!(keys.contains(&"Editor-Plugin-Version"));
+    }
+
+    #[tokio::test]
+    async fn new_with_token_returns_it() {
+        let auth = CopilotAuth::new(Some("ghp_test".into()));
+        let token = auth.get_github_token().await.unwrap();
+        assert_eq!(token, "ghp_test");
+    }
+
+    #[tokio::test]
+    async fn cached_copilot_token_returned_when_valid() {
+        let auth = CopilotAuth::new(Some("ghp_test".into()));
+        // Pre-fill a copilot token with far-future expiry
+        *auth.copilot_token.write().await = Some("cp_cached".into());
+        *auth.copilot_expires_at.write().await = now_secs() + 3600.0;
+
+        let token = auth.get_copilot_token().await.unwrap();
+        assert_eq!(token, "cp_cached");
     }
 }

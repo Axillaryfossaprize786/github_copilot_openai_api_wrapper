@@ -23,6 +23,8 @@ const DEFAULT_MODELS: &[&str] = &[
 pub struct CopilotClient {
     auth: CopilotAuth,
     http: Client,
+    chat_url: String,
+    models_url: String,
 }
 
 impl CopilotClient {
@@ -32,7 +34,27 @@ impl CopilotClient {
             .connect_timeout(std::time::Duration::from_secs(10))
             .build()
             .unwrap();
-        Self { auth, http }
+        Self {
+            auth,
+            http,
+            chat_url: COPILOT_CHAT_URL.into(),
+            models_url: COPILOT_MODELS_URL.into(),
+        }
+    }
+
+    /// Create a client with custom base URLs (for testing with mock servers).
+    pub fn new_with_base_urls(auth: CopilotAuth, chat_url: &str, models_url: &str) -> Self {
+        let http = Client::builder()
+            .timeout(std::time::Duration::from_secs(10))
+            .connect_timeout(std::time::Duration::from_secs(5))
+            .build()
+            .unwrap();
+        Self {
+            auth,
+            http,
+            chat_url: chat_url.into(),
+            models_url: models_url.into(),
+        }
     }
 
     async fn headers(&self) -> Result<Vec<(&'static str, String)>, String> {
@@ -54,7 +76,7 @@ impl CopilotClient {
         payload["stream"] = Value::Bool(false);
         let headers = self.headers().await?;
 
-        let mut req = self.http.post(COPILOT_CHAT_URL);
+        let mut req = self.http.post(&self.chat_url);
         for (k, v) in &headers {
             req = req.header(*k, v);
         }
@@ -88,7 +110,7 @@ impl CopilotClient {
             }
         }
 
-        let mut req = self.http.post(COPILOT_CHAT_URL);
+        let mut req = self.http.post(&self.chat_url);
         for (k, v) in &headers {
             req = req.header(*k, v);
         }
@@ -117,7 +139,7 @@ impl CopilotClient {
     pub async fn list_models(&self) -> Vec<Value> {
         let result: Result<Vec<Value>, _> = async {
             let headers = self.headers().await?;
-            let mut req = self.http.get(COPILOT_MODELS_URL);
+            let mut req = self.http.get(&self.models_url);
             for (k, v) in &headers {
                 req = req.header(*k, v);
             }

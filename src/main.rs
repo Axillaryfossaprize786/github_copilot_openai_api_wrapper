@@ -1,22 +1,10 @@
-mod auth;
-mod config;
-mod copilot;
-mod models;
-mod routes;
-
 use std::sync::Arc;
-use axum::Router;
-use tower_http::cors::CorsLayer;
 use tracing_subscriber::EnvFilter;
 
-use auth::CopilotAuth;
-use config::Settings;
-use copilot::CopilotClient;
-
-/// Shared application state.
-pub struct AppState {
-    pub client: CopilotClient,
-}
+use copilot_wrapper::auth::CopilotAuth;
+use copilot_wrapper::config::Settings;
+use copilot_wrapper::copilot::CopilotClient;
+use copilot_wrapper::{AppState, build_app};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -33,10 +21,7 @@ async fn main() {
     let client = CopilotClient::new(auth);
     let state = Arc::new(AppState { client });
 
-    let app = Router::new()
-        .merge(routes::router())
-        .layer(CorsLayer::permissive())
-        .with_state(state);
+    let app = build_app(state);
 
     let addr = format!("{}:{}", settings.host, settings.port);
     tracing::info!("Copilot OpenAI wrapper listening on {addr}");
