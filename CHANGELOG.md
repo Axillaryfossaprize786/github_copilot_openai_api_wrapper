@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.0] – 2026-03-20
+
+### Added
+- Complete Rust reimplementation in `rust/` — feature-parity with the Python version
+  - `axum` HTTP server with single-threaded tokio runtime
+  - GitHub OAuth Device Flow authentication
+  - Copilot token exchange with auto-refresh
+  - `/health`, `/v1/models`, `/v1/chat/completions` (streaming + non-streaming)
+  - CORS, request logging via `tower-http`
+  - `.env` file support
+  - `open` browser on macOS during device flow
+
+### Changed
+- `com.github.copilot-wrapper.plist` now points to the Rust binary (~5 MB RSS idle vs ~40 MB Python)
+- Release binary: 2.4 MB, stripped, LTO
+
 ## [0.1.1] – 2026-03-20
 
 ### Changed

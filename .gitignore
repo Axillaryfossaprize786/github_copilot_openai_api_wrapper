@@ -22,6 +22,9 @@ env/
 # Environment
 .env
 
+# Rust
+rust/target/
+
 # OS
 .DS_Store
 Thumbs.db
