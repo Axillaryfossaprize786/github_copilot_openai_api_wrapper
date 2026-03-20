@@ -5,7 +5,9 @@ description = "Local OpenAI-compatible API wrapper for GitHub Copilot"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115.0",
-    "uvicorn[standard]>=0.34.0",
+    "uvicorn>=0.34.0",
+    "uvloop>=0.21.0; sys_platform != 'win32'",
+    "httptools>=0.6.0",
     "httpx>=0.28.0",
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
@@ -20,6 +22,9 @@ dev = [
 
 [project.scripts]
 copilot-wrapper = "src.main:cli"
+
+[tool.setuptools]
+packages = ["src"]
 
 [tool.ruff]
 target-version = "py311"

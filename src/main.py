@@ -131,6 +131,8 @@ def cli():
         host=settings.host,
         port=settings.port,
         log_level=settings.log_level,
+        loop="uvloop",
+        workers=1,
     )
 
 
